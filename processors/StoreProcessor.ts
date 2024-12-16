@@ -35,7 +35,7 @@ export class StoreProcessor extends Processor {
     }
 
     if (show) {
-      fs.writeFileSync(`${Configuration.outDir}${pu.name}`,pu.content);
+      fs.writeFileSync(`${Configuration.outDir}${pu.name}.txt`,pu.content);
     }
 
     return [];

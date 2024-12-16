@@ -4,13 +4,16 @@
   "description": "This example uses `PlaywrightCrawler` to recursively crawl https://crawlee.dev using the browser automation library [Playwright](https://playwright.dev).",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "start": "tsx src/clean.ts"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
   "dependencies": {
     "@types/node": "^22.10.2",
+    "@types/pg": "^8.11.10",
+    "openai": "^4.76.3",
+    "pg": "^8.13.1",
     "typescript": "^5.7.2",
     "xml2js": "^0.6.2"
   }
