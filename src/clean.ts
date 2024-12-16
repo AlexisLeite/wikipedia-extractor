@@ -34,9 +34,7 @@ async function executePipeline(pu: ProcessingUnit) {
   }
 }
 
-const path = "D:\\downloads\\eswiki-20241201-pages-articles-multistream1.xml-p1p159400";
-
-const fileSize = putDots(fs.statSync(path).size);
+const fileSize = putDots(fs.statSync(Configuration.mainFile).size);
 let read = 0;
 
 function sanitizeFileName(fileName: string): string {
@@ -44,11 +42,6 @@ function sanitizeFileName(fileName: string): string {
     .replace(/[<>:"\/\\|?*\x00-\x1F]/g,'') // Remove invalid characters
     .replace(/\s+/g,'_') // Replace spaces with underscores
     .substring(0,255); // Limit length to 255 characters
-}
-
-function writeAtCoordinates(x: number,y: number,text: string): void {
-  readline.cursorTo(process.stdout,x,y); // Move cursor to specified coordinates
-  process.stdout.write(text);            // Write text at the cursor position
 }
 
 function putDots(n: number) {
@@ -109,5 +102,5 @@ async function readFileByLines(filePath: string): Promise<void> {
 
 console.clear();
 console.time("Processing time");
-readFileByLines(path);
+readFileByLines(Configuration.mainFile);
 console.timeEnd("Processing time");
