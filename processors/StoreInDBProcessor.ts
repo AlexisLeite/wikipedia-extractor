@@ -7,7 +7,7 @@ import { Configuration } from "./Configuration.js";
 import OpenAI from 'openai';
 
 const client = new OpenAI({
-  apiKey: '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',
+  apiKey: '',
 });
 
 const pool = new Pool({
