@@ -16,14 +16,16 @@ import { MainContentProcessor } from '../processors/MainContentProcessor.js';
 import { ExtractFromXmlProcessor } from '../processors/ExtractFromXmlProcessor.js';
 import * as readline from 'readline';
 import { Configuration } from '../processors/Configuration.js';
+import { StoreInDBProcessor } from '../processors/StoreInDBProcessor.js';
 
-export type TProcessor = 'PROCESS_CONTENT' | 'SPLIT_WIDGETS' | 'STORE' | 'EXTRACT_FROM_XML';
+export type TProcessor = 'PROCESS_CONTENT' | 'SPLIT_WIDGETS' | 'STORE' | 'EXTRACT_FROM_XML' | 'STORE_IN_DB';
 
 const processors: Record<TProcessor,Processor> = {
   PROCESS_CONTENT: new MainContentProcessor(),
   EXTRACT_FROM_XML: new ExtractFromXmlProcessor(),
   SPLIT_WIDGETS: new StartProcessor(),
   STORE: new StoreProcessor(),
+  STORE_IN_DB: new StoreInDBProcessor()
 };
 
 async function executePipeline(pu: ProcessingUnit) {
@@ -65,6 +67,8 @@ function putDots(n: number) {
   return output;
 }
 
+const maxFiles = Configuration.filesToProcess;
+
 async function readFileByLines(filePath: string): Promise<void> {
   try {
     // Create a readable stream from the file
@@ -82,9 +86,10 @@ async function readFileByLines(filePath: string): Promise<void> {
 
     // Read the file line by line
     for await (const line of rl) {
+      if (i === maxFiles) {
+        break;
+      }
       read += line.length;
-      console.log(`Read ${putDots(read)}/${fileSize}`);
-
       buffer += line + '\n';
       const match = line.match(/<title>([^<]+)<\/title>/);
       if (match?.[0]) {
@@ -108,5 +113,6 @@ async function readFileByLines(filePath: string): Promise<void> {
 
 console.clear();
 console.time("Processing time");
-readFileByLines(Configuration.mainFile);
-console.timeEnd("Processing time");
+readFileByLines(Configuration.mainFile).then(() => {
+  console.timeEnd("Processing time");
+});

@@ -128,6 +128,8 @@ export class MainContentProcessor extends Processor {
 
     return [{
       ...pu,content,target: 'STORE'
+    },{
+      ...pu,content,target: 'STORE_IN_DB'
     }];
   }
 }
