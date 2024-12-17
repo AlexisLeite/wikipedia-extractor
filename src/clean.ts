@@ -1,8 +1,14 @@
 /**
  * Extracts the widgets from the main content and creates a file for each one.
  */
+/**
+ * Takes the original data and splits it in several xml fils, each one including 
+ * a wikipedia topic.
+ * 
+ * The source files can be downloaded from https://wikipedia.c3sl.ufpr.br/eswiki/20241201/.
+ */
 
-import fs,{ write } from 'fs';
+import fs from 'fs';
 import { ProcessingUnit,Processor } from '../processors/Processor.js';
 import { StartProcessor } from '../processors/StartProcessor.js';
 import { StoreProcessor } from '../processors/StoreProcessor.js';
@@ -29,7 +35,7 @@ async function executePipeline(pu: ProcessingUnit) {
       const newPus = await processor.run(current!);
       pus.unshift(...newPus);
     } catch (e) {
-      fs.writeFileSync(Configuration.errorsDir + current!.name,String(e));
+      fs.writeFileSync(Configuration.errorsDir + current!.name,String(e) + "\n\n" + (e as Error).stack);
     }
   }
 }
