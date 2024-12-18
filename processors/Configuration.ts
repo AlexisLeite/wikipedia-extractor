@@ -1,9 +1,9 @@
 export class Configuration {
-  static mainFile = "D:\\code\\crawlers\\first-crawler\\src\\original\\part1";
-  static cacheDir = 'D:\\code\\crawlers\\first-crawler\\src\\cache\\';
-  static errorsDir = 'D:\\code\\crawlers\\first-crawler\\src\\errors\\';
-  static outDir = 'D:\\code\\crawlers\\first-crawler\\src\\cleaned\\';
+  static mainFile = "C:\\code\\wikipedia-extractor\\src\\original\\whole.xml";
+  static cacheDir = 'C:\\code\\wikipedia-extractor\\src\\cache\\';
+  static errorsDir = 'C:\\code\\wikipedia-extractor\\src\\errors\\';
+  static outDir = 'C:\\code\\wikipedia-extractor\\src\\cleanedWhole\\';
 
-  static filesToProcess = 600000;
+  static filesToProcess = 60000000;
   static cacheActive = true;
 }

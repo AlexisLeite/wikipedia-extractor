@@ -16,7 +16,7 @@ import { MainContentProcessor } from '../processors/MainContentProcessor.js';
 import { ExtractFromXmlProcessor } from '../processors/ExtractFromXmlProcessor.js';
 import * as readline from 'readline';
 import { Configuration } from '../processors/Configuration.js';
-import { StoreInDBProcessor } from '../processors/StoreInDBProcessor.js';
+import { NopeProcessor } from '../processors/NopeProcessor.js';
 
 export type TProcessor = 'PROCESS_CONTENT' | 'SPLIT_WIDGETS' | 'STORE' | 'EXTRACT_FROM_XML' | 'STORE_IN_DB';
 
@@ -25,7 +25,7 @@ const processors: Record<TProcessor,Processor> = {
   EXTRACT_FROM_XML: new ExtractFromXmlProcessor(),
   SPLIT_WIDGETS: new StartProcessor(),
   STORE: new StoreProcessor(),
-  STORE_IN_DB: new StoreInDBProcessor()
+  STORE_IN_DB: new NopeProcessor()
 };
 
 async function executePipeline(pu: ProcessingUnit) {
@@ -102,6 +102,9 @@ async function readFileByLines(filePath: string): Promise<void> {
       if (line.match(/<\/page>/)) {
         if (title) {
           i++;
+          if(i % 1000 === 0) {
+            console.log(`${i} processed`)
+          }
           executePipeline({ content: buffer.toString(),name: `${sanitizeFileName(title)}`,target: 'EXTRACT_FROM_XML' });
         }
       }
